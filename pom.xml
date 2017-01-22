@@ -32,6 +32,42 @@
     </dependency>
 
     <dependency>
+      <groupId>net.sf.jasperreports</groupId>
+      <artifactId>jasperreports</artifactId>
+      <version>6.2.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.lowagie</groupId>
+      <artifactId>itext</artifactId>
+      <version>2.1.7</version>
+    </dependency>
+
+    <dependency>
+      <groupId>xalan</groupId>
+      <artifactId>xalan</artifactId>
+      <version>2.7.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>font</groupId>
+      <artifactId>tahoma</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>font</groupId>
+      <artifactId>verdana</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>font</groupId>
+      <artifactId>times</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
       <groupId>postgresql</groupId>
       <artifactId>postgresql</artifactId>
       <version>9.1-901.jdbc4</version>

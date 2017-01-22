@@ -34,10 +34,7 @@ public class WebService {
     @Path("/{param}")
     @Produces("application/pdf")
     public Response getPersons(@PathParam("param") String snils) {
-        System.out.println(snils);
         Response.ResponseBuilder response = null;
-
-
         Date endDate =new Date();
         try {
             XML content = getAccountStatement(snils, endDate);
@@ -46,21 +43,11 @@ public class WebService {
                 response = Response.ok((Object) print);
                 response.header("Content-Disposition",
                         "attachment; filename=1.pdf");
-
             }
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
-
-
-
-        /*File file = new File("C:\\tmp\\options_sorento.pdf");
-        response = Response.ok((Object) file);
-        response.header("Content-Disposition",
-                "attachment; filename=options_sorento.pdf");
-        //return Response.status(200).entity(output).build();*/
         return response.build();
-
     }
 
     private File print(XML xml) throws JAXBException, IOException, JRException {
@@ -71,8 +58,12 @@ public class WebService {
         File fileXmlContent = getTmpFile();
         writeFile(fileXmlContent, bytes);//\temp\2017
 
-        String mainTemplateCode = "F-P-ACCSTT-JASPER-IN";
-        File fileTemplate =new File("C:\\tmp\\AccountStatement.jasper");
+        loadTemplate("logo.jpg");
+        //fileTemplate = loadTemplate(mainTemplateCode);
+
+        File fileTemplate =loadTemplate("AccountStatement.jasper");
+
+
 
         HashMap<String, Object> params = new HashMap<String, Object>();
         params.put(JRXPathQueryExecuterFactory.PARAMETER_XML_DATA_DOCUMENT, JRXmlUtils.parse(fileXmlContent));
@@ -96,6 +87,19 @@ public class WebService {
 
         return fileReport;
     }
+
+    public static File loadTemplate(String name) throws IOException {
+        //long modified = fileDTO.getVersion().getTime();
+        File directory = new File(getTmpDir());
+        File file = new File(directory, name);
+        if(file.exists() /*&& file.lastModified() == modified*/) {
+            return file;
+        } else {
+            return file;
+        }
+    }
+
+
 
     public static void removeBlankPages(JasperPrint print){
         java.util.List pages = print.getPages();
