@@ -11,21 +11,26 @@ import net.sf.dynamicreports.report.exception.DRException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-@Path("/persons")
+@Path("/statement")
 public class WebService {
 
     @GET
     @Path("/{param}")
+    @Produces("application/pdf")
     public Response getPersons(@PathParam("param") String msg) {
+        System.out.println(msg);
+        //String output = "Person outPut : " + msg;
 
-        String output = "Person outPut : " + msg;
+        Response.ResponseBuilder response = null;
 
         Connection connection = null;
         try {
@@ -51,19 +56,16 @@ public class WebService {
                 .setDataSource("SELECT id, fio" +
                                 "  FROM public.clients",
                         connection);
-        try {
-            //show the report
-            report.show();
 
-            //export the report to a pdf file
-            report.toPdf(new FileOutputStream("C:\\tmp\\report.pdf"));
-        } catch (DRException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
 
-        return Response.status(200).entity(output).build();
+        File file = new File("C:\\tmp\\options_sorento.pdf");
+        response = Response.ok((Object) file);
+        response.header("Content-Disposition",
+                "attachment; filename=options_sorento.pdf");
+
+
+        //return Response.status(200).entity(output).build();
+        return response.build();
 
     }
 
